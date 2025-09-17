@@ -11,10 +11,13 @@ public class ShipParts {
     public final WeaponPart ANTIMATTER_CANNON = new WeaponPart(4,4);
 
     public final WeaponPart FLUX_MISSILE   = new WeaponPart(true, 1,2,0,1);
-    public final WeaponPart PLASMA_MISSILE = new WeaponPart(true, 2, 2, 1, 0);
+    public final WeaponPart PLASMA_MISSILE = new WeaponPart(true, 2,2,1,0);
 
+    public final WeaponPart ION_MISSILE        = new WeaponPart(true, 1, 3,0,0);
     public final WeaponPart SOLITON_MISSILE    = new WeaponPart(true, 3, 1,0,0);
     public final WeaponPart ANTIMATTER_MISSILE = new WeaponPart(true, 4, 1,0,0);
+    public final WeaponPart ION_TURRET         = new WeaponPart(false, 2,2,0,0);
+    public final WeaponPart SOLITON_CHARGER    = new WeaponPart(false, 3,1,1,0);
     //TODO: Missing Ancient Weapon Ship Parts
 
     //Computers
@@ -26,12 +29,15 @@ public class ShipParts {
     //Shields
     public final ShieldPart GAUSS_SHIELD      = new ShieldPart(1,0);
     public final ShieldPart PHASE_SHIELD      = new ShieldPart(2,1);
-    public final ShieldPart ABSORPTION_SHIELD = new ShieldPart(1, -4);
+    public final ShieldPart ABSORPTION_SHIELD = new ShieldPart(1,-4);
+    public final ShieldPart INVERSION_SHIELD  = new ShieldPart(2,2);
+
+    public final ShieldPart FLUX_SHIELD       = new ShieldPart(3,2,1);
 
     //Hulls
-    public final HullPart HULL           = new HullPart(1, 0);
+    public final HullPart HULL           = new HullPart(1,0);
     public final HullPart IMPROVED_HULL  = new HullPart(2,0);
-    public final  HullPart CONIFOLD_HULL = new HullPart(3, 3);
+    public final  HullPart CONIFOLD_HULL = new HullPart(3,3);
 
     //Drives
     public final DrivePart NUCLEAR_DRIVE    = new DrivePart(1,1,1);
