@@ -26,7 +26,9 @@ public class Ship {
     private int attackBonus;
     private int defendBonus;
     private ArrayList<Integer> attacks = new ArrayList<>();
-    private int inititive;
+    private double inititive;
+
+    private boolean isAttacker = true;
 
     public Ship(int size, int baseInititive){
         partAmount = size;
@@ -52,6 +54,7 @@ public class Ship {
         attacks.clear();
 
         for(ShipPart part : shipParts){
+            if (part == null) continue;
             newInititive += part.getInititiveBonus();
             if (part instanceof WeaponPart){
                 int amountAttacks = ((WeaponPart) part).getDiceCount();
@@ -75,23 +78,25 @@ public class Ship {
 
 
     //Getter for Base Ships
-    public static void getBaseInterceptor(){
+    public static Ship getBaseInterceptor(){
         Ship ship = new Ship(INTERCEPTOR_SIZE, INTERCEPTOR_INI);
         ship.replacePart(0, ShipParts.NUCLEAR_SOURCE);
         ship.replacePart(1, ShipParts.ION_CANNON);
         ship.replacePart(2, ShipParts.NUCLEAR_DRIVE);
+        return ship;
     }
 
-    public static void getBaseCruiser(){
+    public static Ship getBaseCruiser(){
         Ship ship = new Ship(CRUISER_SIZE, CRUISER_INI);
         ship.replacePart(0, ShipParts.ELECTRON_COMPUTER);
         ship.replacePart(1, ShipParts.NUCLEAR_SOURCE);
         ship.replacePart(2, ShipParts.ION_CANNON);
         ship.replacePart(3, ShipParts.HULL);
         ship.replacePart(5, ShipParts.NUCLEAR_DRIVE);
+        return ship;
     }
 
-    public static void getBaseDreadnought(){
+    public static Ship getBaseDreadnought(){
         Ship ship = new Ship(DREADNOUGHT_SIZE,DREADNOUGHT_INI);
         ship.replacePart(0, ShipParts.ELECTRON_COMPUTER);
         ship.replacePart(1, ShipParts.NUCLEAR_SOURCE);
@@ -100,6 +105,7 @@ public class Ship {
         ship.replacePart(4, ShipParts.ION_CANNON);
         ship.replacePart(5, ShipParts.HULL);
         ship.replacePart(7, ShipParts.NUCLEAR_DRIVE);
+        return ship;
     }
 
     public int getDamage() {
@@ -114,7 +120,16 @@ public class Ship {
         return defendBonus;
     }
 
-    public int getInititive() {
-        return inititive;
+    public double getInititive() {
+        if (isAttacker) return inititive;
+        return  inititive + 0.5;
+    }
+
+    public boolean isAttacker() {
+        return isAttacker;
+    }
+
+    public void setAttacker(boolean attacker) {
+        isAttacker = attacker;
     }
 }
