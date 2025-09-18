@@ -1,7 +1,8 @@
 package ships;
 
-import shipParts.ShipPart;
-import shipParts.ShipParts;
+import shipParts.*;
+
+import java.util.ArrayList;
 
 public class Ship {
 
@@ -19,6 +20,14 @@ public class Ship {
     private int baseInititive;
     private ShipPart[] shipParts;
 
+
+    private int damage = 0;
+    private int totalHull;
+    private int attackBonus;
+    private int defendBonus;
+    private ArrayList<Integer> attacks = new ArrayList<>();
+    private int inititive;
+
     public Ship(int size, int baseInititive){
         partAmount = size;
         this.baseInititive = baseInititive;
@@ -27,14 +36,41 @@ public class Ship {
 
     public void replacePart(int index, ShipPart part) {
         shipParts[index] = part;
+        updateStats();
     }
 
-    public int getInititive() {
-        int res = baseInititive;
-        for (ShipPart part : shipParts){
-            res += part.getInititiveBonus();
+    public boolean damage(int damage){
+        this.damage += damage;
+        return damage > totalHull;
+    }
+
+    public void updateStats(){
+        int newHull = 0;
+        int newAttack = 0;
+        int newDefense = 0;
+        int newInititive = baseInititive;
+        attacks.clear();
+
+        for(ShipPart part : shipParts){
+            newInititive += part.getInititiveBonus();
+            if (part instanceof WeaponPart){
+                int amountAttacks = ((WeaponPart) part).getDiceCount();
+                int amountDamage = ((WeaponPart) part).getDamage();
+
+                for(int i = 0; i < amountAttacks; i++) attacks.add(amountDamage);
+            } else if(part instanceof HullPart){
+                newHull += ((HullPart) part).getHullBonus();
+            } else if (part instanceof ComputerPart) {
+                newAttack += ((ComputerPart) part).getAttackBonus();
+            } else if (part instanceof ShieldPart) {
+                newDefense += ((ShieldPart) part).getAttackMalus();
+            }
         }
-        return getInititive();
+
+        totalHull = newHull;
+        attackBonus = newAttack;
+        defendBonus = newDefense;
+        inititive = newInititive;
     }
 
 
@@ -64,5 +100,21 @@ public class Ship {
         ship.replacePart(4, ShipParts.ION_CANNON);
         ship.replacePart(5, ShipParts.HULL);
         ship.replacePart(7, ShipParts.NUCLEAR_DRIVE);
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public int getAttackBonus() {
+        return attackBonus;
+    }
+
+    public int getDefendBonus() {
+        return defendBonus;
+    }
+
+    public int getInititive() {
+        return inititive;
     }
 }
